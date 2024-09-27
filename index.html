@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiplication Practice</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Multiplication Practice</h1>
+        <div id="question"></div>
+        <div class="answer-section">
+            <input type="number" id="answer1" placeholder="Tens product">
+            <input type="number" id="answer2" placeholder="Ones product">
+            <input type="number" id="answer3" placeholder="Total">
+            <button onclick="checkAnswer()">Submit</button>
+        </div>
+        <div id="result"></div>
+    </div>
+
+    <script>
+    let correctAnswer, num1, num2;
+
+    function generateQuestion() {
+        num1 = Math.floor(Math.random() * 9) + 1; // Random number from 1 to 9
+        num2 = Math.floor(Math.random() * 90) + 10; // Random number from 10 to 99
+        correctAnswer = num1 * num2;
+        document.getElementById('question').textContent = `${num1} × ${num2} = ?`;
+    }
+
+    function checkAnswer() {
+        const userAnswer1 = parseInt(document.getElementById('answer1').value);
+        const userAnswer2 = parseInt(document.getElementById('answer2').value);
+        const userAnswer3 = parseInt(document.getElementById('answer3').value);
+        const resultElement = document.getElementById('result');
+        
+        const tens = Math.floor(num2 / 10);
+        const ones = num2 % 10;
+        const part1 = num1 * tens * 10;
+        const part2 = num1 * ones;
+        
+        if (userAnswer1 === part1 && userAnswer2 === part2 && userAnswer3 === correctAnswer) {
+            resultElement.textContent = 'Correct!\n' +
+                `${num1} × ${num2} = ${correctAnswer}\n` +
+                `${num1} × ${tens}0 = ${part1}\n` +
+                `${num1} × ${ones} = ${part2}\n` +
+                `${part1} + ${part2} = ${correctAnswer}`;
+            
+            setTimeout(generateQuestion, 5000); // Generate new question after 5 seconds
+        } else {
+            resultElement.textContent = `Incorrect. The correct answer is:\n` +
+                `${num1} × ${tens}0 = ${part1}\n` +
+                `${num1} × ${ones} = ${part2}\n` +
+                `Total: ${correctAnswer}`;
+        }
+        
+        document.getElementById('answer1').value = '';
+        document.getElementById('answer2').value = '';
+        document.getElementById('answer3').value = '';
+    }
+
+    generateQuestion();
+    </script>
+</body>
+</html>
